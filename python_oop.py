@@ -13,8 +13,7 @@ Testing:
 """
 
 
-class TestRunBuilder:
-
+class TestRunGeneral:
     registration_url = 'https://react-redux.realworld.io/#/register'
     login_url = 'https://react-redux.realworld.io/#/login'
     article_creation_url = 'https://react-redux.realworld.io/#/editor'
@@ -22,10 +21,8 @@ class TestRunBuilder:
 
     # Main constructor
     def __init__(self, first_name, last_name, user_email, user_password):
-        username_list = [first_name, last_name]
-        self.username = ''.join(username_list)
-        splits = len(user_email.split('@'))
-        if (splits == 2) and ("@" in user_email):
+        self.username = ''.join([first_name, last_name])
+        if len(user_email.split('@')) and ("@" in user_email):
             self.user_email = user_email
         else:
             print('Email field is not valid')
@@ -33,13 +30,8 @@ class TestRunBuilder:
         # comment line under this if you want to see the password in console
         self.user_password = '********'
 
-    # Login flow
-    def login_flow(self):
-        print(f'- Open {self.login_url} page')
-        print(f'- Fill Username field as {self.user_email}')
-        print(f'- Fill Password field as {self.user_password}')
-        print('- Click on [Sign in] button')
 
+class TestCases(TestRunGeneral):
     # Test suite for Registration page
     def registration_test_suite(self):
         print('-----------------------------')
@@ -68,6 +60,15 @@ class TestRunBuilder:
         print('- Click on [Publish Article] button')
         print('- Check if redirection to published page is working')
 
+
+class TestRunBuilder(TestCases):
+    # Login flow
+    def login_flow(self):
+        print(f'- Open {self.login_url} page')
+        print(f'- Fill Username field as {self.user_email}')
+        print(f'- Fill Password field as {self.user_password}')
+        print('- Click on [Sign in] button')
+
     # Smoke Test Run
     def smoke_test_run(self):
         print('-----------------------------')
@@ -89,8 +90,9 @@ class TestRunBuilder:
         self.login_test_suite()
         self.publish_article_test_suite()
 
+
 test_data = TestRunBuilder('Dmitriy', 'Lebed', 'up2dmas+12345@gmail.com', '12345678')
 
-test_data.smoke_test_run()
-test_data.sanity_test_run()
-test_data.regression_test_run()
+test_data.smoke_test_run()  # running smoke test run
+test_data.sanity_test_run()  # running sanity test run
+test_data.regression_test_run()  # running regression test run
